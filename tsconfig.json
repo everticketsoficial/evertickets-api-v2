@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
-    // File Layout
     "baseUrl": "./",
     "outDir": "dist",
 
-    //
     "target": "es2022",
     "module": "commonjs",
 
-    // Recommended Options
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,12 +15,10 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./src/types", "./node_modules/@types"],
 
-    //
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
 
-    // Other Outputs
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true
