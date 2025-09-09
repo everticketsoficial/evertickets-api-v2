@@ -20,10 +20,7 @@
 
     //
     "paths": {
-      "@/modules/*": ["./src/modules/*"],
-      "@/config/*": ["./src/config/*"],
-      "@/shared/*": ["./src/shared/*"],
-      "@/types/*": ["./src/types/*"]
+      "@/*": ["./src/*"],
     },
 
     // Other Outputs
