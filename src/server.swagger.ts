@@ -15,6 +15,20 @@ fastify.register(fastifySwagger, {
       description: 'REST API da Evertickets',
       version: '1.0.0',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   transform: jsonSchemaTransform,
 });
