@@ -11,12 +11,12 @@ import {
 import { FastifyTypedInstance } from '@/types/fastify';
 
 import {
-  categoryCreateResultScheme,
-  categoryCreateScheme,
-  categoryGetResultScheme,
-  categoryListResultScheme,
-  categoryUpdateResultScheme,
-  categoryUpdateScheme,
+  eventCreateResultScheme,
+  eventCreateScheme,
+  eventGetResultScheme,
+  eventListResultScheme,
+  eventUpdateResultScheme,
+  eventUpdateScheme,
 } from './schemes';
 
 const routes = async (app: FastifyTypedInstance) => {
@@ -28,7 +28,7 @@ const routes = async (app: FastifyTypedInstance) => {
     url: '',
     schema: {
       response: {
-        ...defaultResponse200(categoryListResultScheme),
+        ...defaultResponse200(eventListResultScheme),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
@@ -46,7 +46,7 @@ const routes = async (app: FastifyTypedInstance) => {
     schema: {
       params: paramsScheme,
       response: {
-        ...defaultResponse200(categoryGetResultScheme),
+        ...defaultResponse200(eventGetResultScheme),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
@@ -62,9 +62,9 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'POST',
     url: '',
     schema: {
-      body: categoryCreateScheme,
+      body: eventCreateScheme,
       response: {
-        ...defaultResponse200(categoryCreateResultScheme),
+        ...defaultResponse200(eventCreateResultScheme),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
@@ -80,10 +80,10 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'PUT',
     url: '/:id',
     schema: {
-      body: categoryUpdateScheme,
+      body: eventUpdateScheme,
       params: paramsScheme,
       response: {
-        ...defaultResponse200(categoryUpdateResultScheme),
+        ...defaultResponse200(eventUpdateResultScheme),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
