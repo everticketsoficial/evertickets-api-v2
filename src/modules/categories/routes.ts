@@ -27,6 +27,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'GET',
     url: '',
     schema: {
+      tags: ['Category'],
       response: {
         ...defaultResponse200(categoryListResultScheme),
         ...defaultResponse400,
@@ -44,6 +45,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'GET',
     url: '/:id',
     schema: {
+      tags: ['Category'],
       params: paramsScheme,
       response: {
         ...defaultResponse200(categoryGetResultScheme),
@@ -62,6 +64,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'POST',
     url: '',
     schema: {
+      tags: ['Category'],
       body: categoryCreateScheme,
       response: {
         ...defaultResponse200(categoryCreateResultScheme),
@@ -80,6 +83,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'PUT',
     url: '/:id',
     schema: {
+      tags: ['Category'],
       body: categoryUpdateScheme,
       params: paramsScheme,
       response: {
@@ -99,6 +103,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'DELETE',
     url: '/:id',
     schema: {
+      tags: ['Category'],
       params: paramsScheme,
       response: {
         ...defaultResponse200(),

@@ -27,6 +27,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'GET',
     url: '',
     schema: {
+      tags: ['Events'],
       response: {
         ...defaultResponse200(eventListResultScheme),
         ...defaultResponse400,
@@ -44,6 +45,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'GET',
     url: '/:id',
     schema: {
+      tags: ['Events'],
       params: paramsScheme,
       response: {
         ...defaultResponse200(eventGetResultScheme),
@@ -62,6 +64,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'POST',
     url: '',
     schema: {
+      tags: ['Events'],
       body: eventCreateScheme,
       response: {
         ...defaultResponse200(eventCreateResultScheme),
@@ -80,6 +83,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'PUT',
     url: '/:id',
     schema: {
+      tags: ['Events'],
       body: eventUpdateScheme,
       params: paramsScheme,
       response: {
@@ -99,6 +103,7 @@ const routes = async (app: FastifyTypedInstance) => {
     method: 'DELETE',
     url: '/:id',
     schema: {
+      tags: ['Events'],
       params: paramsScheme,
       response: {
         ...defaultResponse200(),
