@@ -3,7 +3,7 @@ import { existsSync, mkdirSync } from 'fs';
 import { fastifyStatic } from '@fastify/static';
 
 import { fastify } from './server.config';
-import categoryRoutes from './routes/categories';
+import routes from './modules/routes';
 
 const dirPublic = path.join(__dirname, '..', 'public');
 if (!existsSync(dirPublic)) {
@@ -15,8 +15,4 @@ fastify.register(fastifyStatic, {
   prefix: '/',
 });
 
-fastify.register(categoryRoutes, { prefix: '/categories' });
-
-fastify.get('/ping', async (request, reply) => {
-  return 'pong\n';
-});
+fastify.register(routes);
