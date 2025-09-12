@@ -1,4 +1,4 @@
-import { FastifyTypedInstance } from '@/types/fastify';
+import { FastifyTypedInstance } from '../types/fastify';
 
 import categoryRoutes from './categories/routes';
 import eventRoutes from './events/routes';

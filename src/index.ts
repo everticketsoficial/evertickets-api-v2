@@ -1,5 +1,8 @@
 'reflect-metadata';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { fastify } from './server.config';
 import './server.swagger';
 import './server.error';

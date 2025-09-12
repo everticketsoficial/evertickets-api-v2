@@ -1,4 +1,4 @@
-import { authMiddleware } from '@/auth';
+import { authMiddleware } from '../../auth';
 
 import {
   defaultResponse200,
@@ -6,9 +6,9 @@ import {
   defaultResponse404,
   defaultResponse500,
   paramsScheme,
-} from '@/schemes/http.scheme';
+} from '../../schemes/http.scheme';
 
-import { FastifyTypedInstance } from '@/types/fastify';
+import { FastifyTypedInstance } from '../../types/fastify';
 
 import {
   categoryCreateResultScheme,
