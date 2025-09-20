@@ -3,15 +3,17 @@ import { ok, okList } from '../../shared/utils/http';
 import { IList, IPaginate, IResult } from '../../types/http';
 
 import { CategoryRepository } from './repository';
-import { ICreateCategoryController } from './types';
+import { ICreateCategoryController, IUpdateCategoryController } from './types';
 
 import { ListCategoryUseCase } from './use-cases/list.use-case';
 import { CreateCategoryUseCase } from './use-cases/create.use-case';
+import { UpdateCategoryUseCase } from './use-cases/update.use-case';
 import { DeleteCategoryUseCase } from './use-cases/delete..use-case';
 
 const repository = new CategoryRepository(supabase);
 const listCategoryUseCase = new ListCategoryUseCase(repository);
 const createCategoryUseCase = new CreateCategoryUseCase(repository);
+const updateCategoryUseCase = new UpdateCategoryUseCase(repository);
 const deleteCategoryUseCase = new DeleteCategoryUseCase(repository);
 
 export const ListCategoryController = async (params: IPaginate): Promise<IList> => {
@@ -21,6 +23,11 @@ export const ListCategoryController = async (params: IPaginate): Promise<IList> 
 
 export const CreateCategoryController = async (body: ICreateCategoryController): Promise<IResult> => {
   const { data, error } = await createCategoryUseCase.execute(body);
+  return ok({ data, error });
+};
+
+export const UpdateCategoryController = async (body: IUpdateCategoryController): Promise<IResult> => {
+  const { data, error } = await updateCategoryUseCase.execute(body);
   return ok({ data, error });
 };
 

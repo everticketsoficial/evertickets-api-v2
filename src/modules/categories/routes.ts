@@ -2,6 +2,7 @@ import { authMiddleware } from '../../auth';
 
 import {
   defaultResponse200,
+  defaultResponse201,
   defaultResponse400,
   defaultResponse404,
   defaultResponse500,
@@ -15,11 +16,16 @@ import {
   createCategoryResultSchema,
   categoryGetResultScheme,
   listCategoryResultSchema,
-  categoryUpdateResultScheme,
-  categoryUpdateScheme,
+  updateCategorySchema,
+  updateCategoryResultSchema,
 } from './schema';
 
-import { CreateCategoryController, DeleteCategoryController, ListCategoryController } from './controller';
+import {
+  CreateCategoryController,
+  DeleteCategoryController,
+  ListCategoryController,
+  UpdateCategoryController,
+} from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
   app.addHook('preHandler', authMiddleware);
@@ -92,17 +98,22 @@ const routes = async (app: FastifyTypedInstance) => {
     url: '/:id',
     schema: {
       tags: ['Category'],
-      body: categoryUpdateScheme,
+      body: updateCategorySchema,
       params: paramsScheme,
       response: {
-        ...defaultResponse200(categoryUpdateResultScheme),
+        ...defaultResponse201(updateCategoryResultSchema),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
       },
     },
-    handler: (req, res) => {
-      res.send({ data: {} });
+    handler: async (req, res) => {
+      const { id } = req.params;
+      const { data, error } = await UpdateCategoryController({
+        ...req.body,
+        id,
+      });
+      res.status(error?.name ? 500 : 201).send({ data });
     },
   });
 

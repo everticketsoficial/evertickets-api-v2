@@ -6,6 +6,8 @@ import {
   ICreateCategoryDatabase,
   ICreateCategoryRepository,
   IListCategoryRepository,
+  IUpdateCategoryDatabase,
+  IUpdateCategoryRepository,
 } from './types';
 
 export class CategoryRepository {
@@ -29,6 +31,17 @@ export class CategoryRepository {
       .insert(body)
       .select()
       .maybeSingle<ICreateCategoryDatabase>();
+
+    return { data, error };
+  };
+
+  update = async (body: IUpdateCategoryRepository) => {
+    const { data, error } = await this._supabase
+      .from('categories')
+      .update(body)
+      .eq('id', body.id)
+      .select()
+      .maybeSingle<IUpdateCategoryDatabase>();
 
     return { data, error };
   };
