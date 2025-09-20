@@ -21,6 +21,9 @@ $ npx supabase db dump --data-only --db-url "postgresql://postgres.abrfqxcgebxch
 
 # Subir migrations
 $ npx supabase migration up --db-url "postgresql://postgres.abrfqxcgebxchtzydclu:[YOUR-PASSWORD]@aws-0-sa-east-1.pooler.supabase.com:5432/postgres"
+
+# Atualiza as interfaces
+$ npx supabase gen types typescript --project-id "abrfqxcgebxchtzydclu" > src/types/supabase.d.ts
 ```
 
 ## API Docs

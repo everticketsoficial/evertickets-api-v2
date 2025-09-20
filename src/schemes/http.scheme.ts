@@ -19,6 +19,16 @@ export const defaultResponse200 = (data?: z.ZodObject | z.ZodArray) => ({
   }),
 });
 
+export const defaultResponse201 = (data?: z.ZodObject) => ({
+  201: z.object({
+    statusCode: z.number().default(201),
+    ...(data != undefined && {
+      data,
+      count: z.number().optional(),
+    }),
+  }),
+});
+
 export const defaultResponse400 = {
   400: z.object({
     statusCode: z.number().default(400),
