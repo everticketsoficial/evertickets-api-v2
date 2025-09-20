@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { supabase } from './plugins/supabase';
+import { Database } from './types/supabase';
 
 export async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
   try {
@@ -11,14 +12,31 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
 
     const token = authHeader.replace('Bearer ', '');
 
-    const { data, error } = await supabase.auth.getUser(token);
-    if (error || !data.user) {
+    const userResult = await supabase.auth.getUser(token);
+    if (userResult.error || !userResult.data.user) {
       throw new Error('Token inválido');
     }
 
+    const profileResult = await supabase.from('profiles').select('*').eq('id', userResult.data.user.id).maybeSingle();
+    if (profileResult.error || !profileResult.data?.id) {
+      throw new Error('Perfil não encontrado');
+    }
+
+    if (profileResult.data?.blocked) {
+      throw new Error('Usuário bloqueado');
+    }
+
     request.user = {
-      id: data.user.id,
-      email: data.user.email ?? '',
+      id: userResult.data.user.id,
+      email: userResult.data.user.email ?? '',
+      display_name: profileResult.data.display_name,
+      profile_level: profileResult.data.profile_level,
+      profile_type: profileResult.data.profile_type,
+      cpf: profileResult.data.cpf,
+      cnpj: profileResult.data.cnpj,
+      avatar_url: profileResult.data.avatar_url,
+      blocked: profileResult.data.blocked,
+      phone: profileResult.data.phone,
     };
   } catch (error: any) {
     reply.status(401).send({
@@ -32,8 +50,7 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
 
 declare module 'fastify' {
   interface FastifyRequest {
-    user: {
-      id: string;
+    user: Database['public']['Tables']['profiles']['Row'] & {
       email: string;
     };
   }
