@@ -2,10 +2,10 @@ CREATE TABLE categories (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid()
   , "name" TEXT NOT NULL
   , "description" TEXT
-  , "order" INTEGER
+  , "order" INTEGER NOT NULL
   , photo_url TEXT
-  , active BOOLEAN DEFAULT false
-  , highlighted BOOLEAN DEFAULT false
+  , active BOOLEAN NOT NULL DEFAULT false
+  , highlighted BOOLEAN NOT NULL DEFAULT false
   , created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   , updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
