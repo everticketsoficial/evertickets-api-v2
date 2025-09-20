@@ -2,7 +2,7 @@ CREATE TYPE profile_type_enum AS ENUM ('physical', 'business');
 CREATE TYPE profile_level_enum AS ENUM ('customer', 'staff', 'producer', 'admin');
 
 CREATE TABLE profiles (
-  id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY
+  id UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE
   , profile_type profile_type_enum NOT NULL DEFAULT 'physical'
   , profile_level profile_level_enum NOT NULL DEFAULT 'customer'
   , display_name TEXT NOT NULL
