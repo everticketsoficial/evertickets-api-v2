@@ -11,13 +11,15 @@ import {
 import { FastifyTypedInstance } from '../../types/fastify';
 
 import {
-  categoryCreateResultScheme,
-  categoryCreateScheme,
+  createCategorySchema,
+  createCategoryResultSchema,
   categoryGetResultScheme,
   categoryListResultScheme,
   categoryUpdateResultScheme,
   categoryUpdateScheme,
 } from './schemes';
+
+import { CreateCategoryController } from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
   app.addHook('preHandler', authMiddleware);
@@ -65,16 +67,17 @@ const routes = async (app: FastifyTypedInstance) => {
     url: '',
     schema: {
       tags: ['Category'],
-      body: categoryCreateScheme,
+      body: createCategorySchema,
       response: {
-        ...defaultResponse200(categoryCreateResultScheme),
+        ...defaultResponse201(createCategoryResultSchema),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
       },
     },
-    handler: (req, res) => {
-      res.send({ data: {} });
+    handler: async (req, res) => {
+      const { data, error } = await CreateCategoryController(req.body);
+      res.status(error?.name ? 500 : 201).send({ data });
     },
   });
 
