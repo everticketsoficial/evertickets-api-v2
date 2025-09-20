@@ -14,12 +14,12 @@ import {
   createCategorySchema,
   createCategoryResultSchema,
   categoryGetResultScheme,
-  categoryListResultScheme,
+  listCategoryResultSchema,
   categoryUpdateResultScheme,
   categoryUpdateScheme,
-} from './schemes';
+} from './schema';
 
-import { CreateCategoryController } from './controller';
+import { CreateCategoryController, ListCategoryController } from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
   app.addHook('preHandler', authMiddleware);
@@ -31,14 +31,19 @@ const routes = async (app: FastifyTypedInstance) => {
     schema: {
       tags: ['Category'],
       response: {
-        ...defaultResponse200(categoryListResultScheme),
+        ...defaultResponse200(listCategoryResultSchema),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
       },
     },
-    handler: (req, res) => {
-      res.send({ data: [] });
+    handler: async (req, res) => {
+      const { page, pageSize } = req.query as any;
+      const { data, error } = await ListCategoryController({
+        page: Number(page ?? 1),
+        pageSize: Number(pageSize ?? 10),
+      });
+      res.status(error?.name ? 500 : 200).send({ data });
     },
   });
 

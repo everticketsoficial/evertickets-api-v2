@@ -13,3 +13,5 @@ export const createCategoryResultSchema = createCategorySchema.extend({
   created_at: z.date(),
   updated_at: z.date(),
 });
+
+export const listCategoryResultSchema = z.array(createCategoryResultSchema);

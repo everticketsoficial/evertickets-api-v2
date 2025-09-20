@@ -3,15 +3,20 @@ export interface IPaginate {
   pageSize: number;
 }
 
+export interface IError {
+  name: string;
+  message: string;
+}
+
 export interface IRepositoryResult<T = unknown> {
   data: T | null;
   count: number | null;
-  error: { name: string; message: string } | null;
+  error: IError | null;
 }
 
 export interface IResult<T = unknown> {
   data: T | null;
-  error?: { name: string; message: string };
+  error?: IError;
 }
 
 export interface IList<T = unknown> {
@@ -19,5 +24,5 @@ export interface IList<T = unknown> {
   count?: number;
   lastPage?: number;
   nextPage?: number;
-  error?: { name: string; message: string };
+  error?: IError;
 }

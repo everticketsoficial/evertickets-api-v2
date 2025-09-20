@@ -15,6 +15,8 @@ export const defaultResponse200 = (data?: z.ZodObject | z.ZodArray) => ({
     ...(data != undefined && {
       data,
       count: z.number().optional(),
+      lastPage: z.number().optional(),
+      nextPage: z.number().optional(),
     }),
   }),
 });
