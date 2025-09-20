@@ -1,5 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
+import { supabase } from './plugins/supabase';
+
 export async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
   try {
     const authHeader = request.headers.authorization;
@@ -9,7 +11,7 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
 
     const token = authHeader.replace('Bearer ', '');
 
-    const { data, error } = await request.server.supabase.auth.getUser(token);
+    const { data, error } = await supabase.auth.getUser(token);
     if (error || !data.user) {
       throw new Error('Token inválido');
     }
