@@ -1,28 +1,38 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 export async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
-  const authHeader = request.headers.authorization;
-  if (!authHeader) {
-    return reply.status(401).send({ error: true, message: 'Token não informado' });
-  }
-
-  const token = authHeader.replace('Bearer ', '');
-
   try {
-    const { data, error } = await request.server.supabase.auth.getUser(token);
-
-    if (error || !data.user) {
-      return reply.status(401).send({ error: true, message: 'Token inválido' });
+    const authHeader = request.headers.authorization;
+    if (!authHeader) {
+      throw new Error('Token não informado');
     }
 
-    request.user = data.user;
-  } catch (err) {
-    return reply.status(401).send({ error: true, message: 'Falha na autenticação' });
+    const token = authHeader.replace('Bearer ', '');
+
+    const { data, error } = await request.server.supabase.auth.getUser(token);
+    if (error || !data.user) {
+      throw new Error('Token inválido');
+    }
+
+    request.user = {
+      id: data.user.id,
+      email: data.user.email ?? '',
+    };
+  } catch (error: any) {
+    reply.status(401).send({
+      error: {
+        name: 'Autenticação',
+        message: error?.message ?? 'Falha na autenticação',
+      },
+    });
   }
 }
 
 declare module 'fastify' {
   interface FastifyRequest {
-    user: any;
+    user: {
+      id: string;
+      email: string;
+    };
   }
 }

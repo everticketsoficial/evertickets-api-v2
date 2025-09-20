@@ -1,17 +1,16 @@
-import fp from "fastify-plugin";
-import { createClient } from "@supabase/supabase-js";
+import fp from 'fastify-plugin';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-export default fp(async (fastify) => {
-  const supabase = createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
-  fastify.decorate("supabase", supabase as any);
+export default fp(async fastify => {
+  fastify.decorate('supabase', supabase);
 });
 
-declare module "fastify" {
+declare module 'fastify' {
   interface FastifyInstance {
-    supabase: ReturnType<typeof createClient>;
+    supabase: SupabaseClient;
   }
 }
+
+export { supabase };
