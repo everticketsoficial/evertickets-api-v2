@@ -32,4 +32,10 @@ export class CategoryRepository {
 
     return { data, error };
   };
+
+  delete = async (id: string) => {
+    const { data, error } = await this._supabase.from('categories').delete().eq('id', id);
+
+    return { data, error };
+  };
 }

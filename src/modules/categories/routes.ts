@@ -19,7 +19,7 @@ import {
   categoryUpdateScheme,
 } from './schema';
 
-import { CreateCategoryController, ListCategoryController } from './controller';
+import { CreateCategoryController, DeleteCategoryController, ListCategoryController } from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
   app.addHook('preHandler', authMiddleware);
@@ -120,8 +120,10 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse500,
       },
     },
-    handler: (req, res) => {
-      res.send({ data: undefined });
+    handler: async (req, res) => {
+      const { id } = req.params;
+      const { data, error } = await DeleteCategoryController(id);
+      res.status(error?.name ? 500 : 200).send({ data });
     },
   });
 };

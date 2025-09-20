@@ -1,13 +1,26 @@
 import { IError, IPaginate } from '../../types/http';
 
-interface Props {
+interface PropsOk {
+  data: any;
+  error: IError | null;
+}
+export const ok = ({ data, error }: PropsOk) => {
+  return {
+    data,
+    error: {
+      name: error?.name ?? '',
+      message: error?.message ?? '',
+    },
+  };
+};
+
+interface PropsOkList {
   data: any;
   count: number | null;
   error: IError | null;
   params: IPaginate;
 }
-
-export const okList = ({ data, count, error, params }: Props) => {
+export const okList = ({ data, count, error, params }: PropsOkList) => {
   return {
     data,
     count: count ?? 0,
