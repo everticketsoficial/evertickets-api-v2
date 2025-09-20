@@ -9,6 +9,11 @@ export const paramsScheme = z.object({
   id: z.uuidv4(),
 });
 
+export const paginateScheme = z.object({
+  page: z.number().min(1).default(1),
+  pageSize: z.number().max(50).default(10),
+});
+
 export const defaultResponse200 = (data?: z.ZodObject | z.ZodArray) => ({
   200: z.object({
     statusCode: z.number().default(200),

@@ -6,6 +6,7 @@ import {
   defaultResponse400,
   defaultResponse404,
   defaultResponse500,
+  paginateScheme,
   paramsScheme,
 } from '../../schemes/http.scheme';
 
@@ -37,7 +38,7 @@ const routes = async (app: FastifyTypedInstance) => {
     url: '',
     schema: {
       tags: ['Category'],
-      // TODO: Params
+      querystring: paginateScheme,
       response: {
         ...defaultResponse200(listCategoryResultSchema),
         ...defaultResponse400,
@@ -46,11 +47,7 @@ const routes = async (app: FastifyTypedInstance) => {
       },
     },
     handler: async (req, res) => {
-      const { page, pageSize } = req.query as any;
-      const { data, error } = await ListCategoryController({
-        page: Number(page ?? 1),
-        pageSize: Number(pageSize ?? 10),
-      });
+      const { data, error } = await ListCategoryController(req.query);
       res.status(error?.name ? 500 : 200).send({ data });
     },
   });
