@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { supabase } from './plugins/supabase';
-import { Database } from './types/supabase';
 
 export async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
   try {
@@ -26,7 +25,7 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
       throw new Error('Usuário bloqueado');
     }
 
-    request.user = {
+    request.currentUser = {
       id: userResult.data.user.id,
       email: userResult.data.user.email ?? '',
       display_name: profileResult.data.display_name,
@@ -45,13 +44,5 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
         message: error?.message ?? 'Falha na autenticação',
       },
     });
-  }
-}
-
-declare module 'fastify' {
-  interface FastifyRequest {
-    user: Database['public']['Tables']['profiles']['Row'] & {
-      email: string;
-    };
   }
 }
