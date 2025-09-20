@@ -14,7 +14,7 @@ import { FastifyTypedInstance } from '../../types/fastify';
 import {
   createCategorySchema,
   createCategoryResultSchema,
-  categoryGetResultScheme,
+  getCategoryResultSchema,
   listCategoryResultSchema,
   updateCategorySchema,
   updateCategoryResultSchema,
@@ -23,6 +23,7 @@ import {
 import {
   CreateCategoryController,
   DeleteCategoryController,
+  GetCategoryController,
   ListCategoryController,
   UpdateCategoryController,
 } from './controller';
@@ -36,6 +37,7 @@ const routes = async (app: FastifyTypedInstance) => {
     url: '',
     schema: {
       tags: ['Category'],
+      // TODO: Params
       response: {
         ...defaultResponse200(listCategoryResultSchema),
         ...defaultResponse400,
@@ -61,14 +63,16 @@ const routes = async (app: FastifyTypedInstance) => {
       tags: ['Category'],
       params: paramsScheme,
       response: {
-        ...defaultResponse200(categoryGetResultScheme),
+        ...defaultResponse200(getCategoryResultSchema),
         ...defaultResponse400,
         ...defaultResponse404,
         ...defaultResponse500,
       },
     },
-    handler: (req, res) => {
-      res.send({ data: {} });
+    handler: async (req, res) => {
+      const { id } = req.params;
+      const { data, error } = await GetCategoryController(id);
+      res.status(error?.name ? 500 : 200).send({ data });
     },
   });
 

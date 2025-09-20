@@ -1,11 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
-import { IPaginate, IRepositoryResult } from '../../types/http';
+import { IPaginate } from '../../types/http';
 
 import {
   ICreateCategoryDatabase,
   ICreateCategoryRepository,
-  IListCategoryRepository,
+  IGetCategoryDatabase,
+  IListCategoryDatabase,
   IUpdateCategoryDatabase,
   IUpdateCategoryRepository,
 } from './types';
@@ -13,24 +14,34 @@ import {
 export class CategoryRepository {
   constructor(private readonly _supabase: SupabaseClient) {}
 
-  list = async ({ page, pageSize }: IPaginate): Promise<IRepositoryResult<IListCategoryRepository[]>> => {
+  list = async ({ page, pageSize }: IPaginate) => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
 
     const { data, error, count } = await this._supabase
       .from('categories')
-      .select<'*', IListCategoryRepository>('*', { count: 'exact' })
+      .select<'*', IListCategoryDatabase>('*', { count: 'exact' })
       .range(from, to);
 
     return { data, error, count };
+  };
+
+  get = async (id: string) => {
+    const { data, error } = await this._supabase
+      .from('categories')
+      .select<'*', IGetCategoryDatabase>()
+      .eq('id', id)
+      .maybeSingle();
+
+    return { data, error };
   };
 
   create = async (body: ICreateCategoryRepository) => {
     const { data, error } = await this._supabase
       .from('categories')
       .insert(body)
-      .select()
-      .maybeSingle<ICreateCategoryDatabase>();
+      .select<'*', ICreateCategoryDatabase>()
+      .maybeSingle();
 
     return { data, error };
   };
@@ -40,8 +51,8 @@ export class CategoryRepository {
       .from('categories')
       .update(body)
       .eq('id', body.id)
-      .select()
-      .maybeSingle<IUpdateCategoryDatabase>();
+      .select<'*', IUpdateCategoryDatabase>()
+      .maybeSingle();
 
     return { data, error };
   };

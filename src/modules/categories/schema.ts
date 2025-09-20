@@ -28,4 +28,5 @@ export const updateCategoryResultSchema = updateCategorySchema.extend({
   updated_at: z.date(),
 });
 
+export const getCategoryResultSchema = createCategoryResultSchema;
 export const listCategoryResultSchema = z.array(createCategoryResultSchema);

@@ -10,7 +10,9 @@ import {
   updateCategorySchema,
 } from './schema';
 
-export type IListCategoryRepository = z.infer<typeof createCategoryResultSchema>;
+export type IListCategoryDatabase = Database['public']['Tables']['categories']['Row'];
+
+export type IGetCategoryDatabase = Database['public']['Tables']['categories']['Row'];
 
 export type ICreateCategoryController = z.infer<typeof createCategorySchema>;
 export type ICreateCategoryUseCase = ICreateCategoryController;
