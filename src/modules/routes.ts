@@ -9,7 +9,7 @@ const routes = async (app: FastifyTypedInstance) => {
   });
 
   app.register(categoryRoutes, { prefix: 'api/v1/category' });
-  app.register(eventRoutes, { prefix: 'api/v1/event' });
+  // app.register(eventRoutes, { prefix: 'api/v1/event' });
 };
 
 export default routes;

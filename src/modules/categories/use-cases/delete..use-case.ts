@@ -5,6 +5,10 @@ export class DeleteCategoryUseCase {
 
   execute = async (id: string) => {
     const { data, error } = await this._repository.delete(id);
-    return { data, error };
+    if (error) {
+      return { error };
+    }
+
+    return { data };
   };
 }

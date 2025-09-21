@@ -6,6 +6,10 @@ export class UpdateCategoryUseCase {
 
   execute = async (body: IUpdateCategoryUseCase) => {
     const { data, error } = await this._repository.update(body);
-    return { data, error };
+    if (error) {
+      return { error };
+    }
+
+    return { data };
   };
 }

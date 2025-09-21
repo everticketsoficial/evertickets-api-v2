@@ -6,6 +6,10 @@ export class CreateCategoryUseCase {
 
   execute = async (body: ICreateCategoryUseCase) => {
     const { data, error } = await this._repository.create(body);
-    return { data, error };
+    if (error) {
+      return { error };
+    }
+
+    return { data };
   };
 }

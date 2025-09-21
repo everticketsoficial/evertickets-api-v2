@@ -23,7 +23,16 @@ export class CategoryRepository {
       .select<'*', IListCategoryDatabase>('*', { count: 'exact' })
       .range(from, to);
 
-    return { data, error, count };
+    return {
+      data: data ?? [],
+      total: count ?? 0,
+      ...(error?.name && {
+        error: {
+          name: error.name,
+          message: error.message,
+        },
+      }),
+    };
   };
 
   get = async (id: string) => {
@@ -33,7 +42,15 @@ export class CategoryRepository {
       .eq('id', id)
       .maybeSingle();
 
-    return { data, error };
+    return {
+      data,
+      ...(error?.name && {
+        error: {
+          name: error.name,
+          message: error.message,
+        },
+      }),
+    };
   };
 
   create = async (body: ICreateCategoryRepository) => {
@@ -43,7 +60,15 @@ export class CategoryRepository {
       .select<'*', ICreateCategoryDatabase>()
       .maybeSingle();
 
-    return { data, error };
+    return {
+      data,
+      ...(error?.name && {
+        error: {
+          name: error.name,
+          message: error.message,
+        },
+      }),
+    };
   };
 
   update = async (body: IUpdateCategoryRepository) => {
@@ -54,12 +79,28 @@ export class CategoryRepository {
       .select<'*', IUpdateCategoryDatabase>()
       .maybeSingle();
 
-    return { data, error };
+    return {
+      data,
+      ...(error?.name && {
+        error: {
+          name: error.name,
+          message: error.message,
+        },
+      }),
+    };
   };
 
   delete = async (id: string) => {
     const { data, error } = await this._supabase.from('categories').delete().eq('id', id);
 
-    return { data, error };
+    return {
+      data,
+      ...(error?.name && {
+        error: {
+          name: error.name,
+          message: error.message,
+        },
+      }),
+    };
   };
 }

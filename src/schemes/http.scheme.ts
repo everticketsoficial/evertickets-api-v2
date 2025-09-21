@@ -10,56 +10,49 @@ export const paramsScheme = z.object({
 });
 
 export const paginateScheme = z.object({
-  page: z.number().min(1).default(1),
-  pageSize: z.number().max(50).default(10),
+  page: z.coerce.number().min(1).default(1),
+  pageSize: z.coerce.number().min(1).max(50).default(10),
 });
 
-export const defaultResponse200 = (data?: z.ZodObject | z.ZodArray) => ({
+export const defaultResponse200 = <T = z.ZodObject | z.ZodArray>(data: T) => ({
   200: z.object({
-    statusCode: z.number().default(200),
-    ...(data != undefined && {
-      data,
-      count: z.number().optional(),
-      lastPage: z.number().optional(),
-      nextPage: z.number().optional(),
+    data,
+    ...(data instanceof z.ZodArray && {
+      total: z.number(),
+      last: z.number().optional(),
+      next: z.number().optional(),
     }),
   }),
 });
 
-export const defaultResponse201 = (data?: z.ZodObject) => ({
+export const defaultResponse201 = <T = z.ZodObject>(data?: T) => ({
   201: z.object({
-    statusCode: z.number().default(201),
     ...(data != undefined && {
       data,
-      count: z.number().optional(),
     }),
   }),
 });
 
 export const defaultResponse400 = {
   400: z.object({
-    statusCode: z.number().default(400),
     error: defaultError,
   }),
 };
 
 export const defaultResponse401 = {
   401: z.object({
-    statusCode: z.number().default(401),
     error: defaultError,
   }),
 };
 
 export const defaultResponse404 = {
   404: z.object({
-    statusCode: z.number().default(404),
     error: defaultError,
   }),
 };
 
 export const defaultResponse500 = {
   500: z.object({
-    statusCode: z.number().default(500),
     error: defaultError,
   }),
 };

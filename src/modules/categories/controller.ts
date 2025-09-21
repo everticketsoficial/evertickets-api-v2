@@ -1,6 +1,6 @@
 import { supabase } from '../../plugins/supabase';
-import { ok, okList } from '../../shared/utils/http';
-import { IList, IPaginate, IResult } from '../../types/http';
+import { nextPaginate } from '../../shared/utils/http';
+import { IPaginate } from '../../types/http';
 
 import { CategoryRepository } from './repository';
 import { ICreateCategoryController, IUpdateCategoryController } from './types';
@@ -18,27 +18,48 @@ const createCategoryUseCase = new CreateCategoryUseCase(repository);
 const updateCategoryUseCase = new UpdateCategoryUseCase(repository);
 const deleteCategoryUseCase = new DeleteCategoryUseCase(repository);
 
-export const ListCategoryController = async (params: IPaginate): Promise<IList> => {
-  const { data, count, error } = await listCategoryUseCase.execute(params);
-  return okList({ data, count, error, params });
+export const ListCategoryController = async (params: IPaginate) => {
+  const { data, total, error } = await listCategoryUseCase.execute(params);
+  if (error) {
+    return { error };
+  }
+
+  const { last, next } = nextPaginate({ total, params });
+  return { data, total, last, next };
 };
 
-export const GetCategoryController = async (id: string): Promise<IList> => {
+export const GetCategoryController = async (id: string) => {
   const { data, error } = await getCategoryUseCase.execute(id);
-  return ok({ data, error });
+  if (error) {
+    return { error };
+  }
+
+  return { data };
 };
 
-export const CreateCategoryController = async (body: ICreateCategoryController): Promise<IResult> => {
+export const CreateCategoryController = async (body: ICreateCategoryController) => {
   const { data, error } = await createCategoryUseCase.execute(body);
-  return ok({ data, error });
+  if (error) {
+    return { error };
+  }
+
+  return { data };
 };
 
-export const UpdateCategoryController = async (body: IUpdateCategoryController): Promise<IResult> => {
+export const UpdateCategoryController = async (body: IUpdateCategoryController) => {
   const { data, error } = await updateCategoryUseCase.execute(body);
-  return ok({ data, error });
+  if (error) {
+    return { error };
+  }
+
+  return { data };
 };
 
-export const DeleteCategoryController = async (id: string): Promise<IList> => {
+export const DeleteCategoryController = async (id: string) => {
   const { data, error } = await deleteCategoryUseCase.execute(id);
-  return ok({ data, error });
+  if (error) {
+    return { error };
+  }
+
+  return { data };
 };

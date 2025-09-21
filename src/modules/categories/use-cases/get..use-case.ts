@@ -5,6 +5,19 @@ export class GetCategoryUseCase {
 
   execute = async (id: string) => {
     const { data, error } = await this._repository.get(id);
-    return { data, error };
+    if (error) {
+      return { error };
+    }
+
+    if (!data?.id) {
+      return { data: undefined };
+    }
+
+    const item = {
+      ...data,
+      photo_url: '',
+    };
+
+    return { data: item };
   };
 }

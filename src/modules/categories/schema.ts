@@ -10,8 +10,8 @@ export const createCategorySchema = z.object({
 });
 export const createCategoryResultSchema = createCategorySchema.extend({
   id: z.uuid(),
-  created_at: z.date(),
-  updated_at: z.date(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
 export const updateCategorySchema = z.object({
@@ -24,8 +24,8 @@ export const updateCategorySchema = z.object({
 });
 export const updateCategoryResultSchema = updateCategorySchema.extend({
   id: z.uuid(),
-  created_at: z.date(),
-  updated_at: z.date(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
 export const getCategoryResultSchema = createCategoryResultSchema;

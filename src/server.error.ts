@@ -8,9 +8,8 @@ fastify.setErrorHandler((err, req, reply) => {
     return reply.code(400).send({
       error: {
         name: err?.name ?? 'Ocorreu um erro desconhecido',
-        message: "Request doesn't match the schema",
+        message: err.message ?? "Request doesn't match the schema",
       },
-      statusCode: 400,
     });
   }
 
@@ -20,7 +19,6 @@ fastify.setErrorHandler((err, req, reply) => {
         name: err.message,
         message: err.cause.issues.length > 0 ? err.cause.issues[0].message : '',
       },
-      statusCode: 500,
     });
   }
 
@@ -29,6 +27,5 @@ fastify.setErrorHandler((err, req, reply) => {
       name: err?.name ?? 'Ocorreu um erro desconhecido',
       message: "Response doesn't match the schema",
     },
-    statusCode: 500,
   });
 });
