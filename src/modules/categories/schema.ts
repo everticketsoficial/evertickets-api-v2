@@ -8,6 +8,7 @@ export const createCategorySchema = z.object({
   active: z.boolean().default(false),
   highlighted: z.boolean().default(false),
 });
+
 export const createCategoryResultSchema = z.object({
   id: z.uuid(),
   name: z.string(),
@@ -28,6 +29,7 @@ export const updateCategorySchema = z.object({
   active: z.boolean().default(false),
   highlighted: z.boolean().default(false),
 });
+
 export const updateCategoryResultSchema = z.object({
   id: z.uuid(),
   name: z.string(),
@@ -40,5 +42,28 @@ export const updateCategoryResultSchema = z.object({
   updated_at: z.string(),
 });
 
-export const getCategoryResultSchema = createCategoryResultSchema;
-export const listCategoryResultSchema = z.array(createCategoryResultSchema);
+export const getCategoryResultSchema = z.object({
+  id: z.uuid(),
+  name: z.string(),
+  description: z.string().optional(),
+  order: z.number(),
+  photo_url: z.string(),
+  active: z.boolean(),
+  highlighted: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const listCategoryResultSchema = z.array(
+  z.object({
+    id: z.uuid(),
+    name: z.string(),
+    description: z.string().optional(),
+    order: z.number(),
+    photo_url: z.string(),
+    active: z.boolean(),
+    highlighted: z.boolean(),
+    created_at: z.string(),
+    updated_at: z.string(),
+  })
+);

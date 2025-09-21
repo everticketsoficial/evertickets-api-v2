@@ -56,10 +56,10 @@ export const UpdateCategoryController = async (body: IUpdateCategoryController) 
 };
 
 export const DeleteCategoryController = async (id: string) => {
-  const { data, error } = await deleteCategoryUseCase.execute(id);
+  const { error } = await deleteCategoryUseCase.execute(id);
   if (error) {
     return { error };
   }
 
-  return { data };
+  return {};
 };

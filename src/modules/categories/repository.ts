@@ -1,18 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
+import { Database } from '../../types/supabase';
 import { IPaginate } from '../../types/http';
 
-import {
-  ICreateCategoryDatabase,
-  ICreateCategoryRepository,
-  IGetCategoryDatabase,
-  IListCategoryDatabase,
-  IUpdateCategoryDatabase,
-  IUpdateCategoryRepository,
-} from './types';
+import { ICreateCategoryRepository, IUpdateCategoryRepository } from './types';
 
 export class CategoryRepository {
-  constructor(private readonly _supabase: SupabaseClient) {}
+  constructor(private readonly _supabase: SupabaseClient<Database>) {}
 
   list = async ({ page, pageSize }: IPaginate) => {
     const from = (page - 1) * pageSize;
@@ -20,7 +14,8 @@ export class CategoryRepository {
 
     const { data, error, count } = await this._supabase
       .from('categories')
-      .select<'*', IListCategoryDatabase>('*', { count: 'exact' })
+      .select('*', { count: 'exact' })
+      .order('order')
       .range(from, to);
 
     return {
@@ -36,11 +31,7 @@ export class CategoryRepository {
   };
 
   get = async (id: string) => {
-    const { data, error } = await this._supabase
-      .from('categories')
-      .select<'*', IGetCategoryDatabase>()
-      .eq('id', id)
-      .maybeSingle();
+    const { data, error } = await this._supabase.from('categories').select().eq('id', id).maybeSingle();
 
     return {
       data,
@@ -54,11 +45,7 @@ export class CategoryRepository {
   };
 
   create = async (body: ICreateCategoryRepository) => {
-    const { data, error } = await this._supabase
-      .from('categories')
-      .insert(body)
-      .select<'*', ICreateCategoryDatabase>()
-      .maybeSingle();
+    const { data, error } = await this._supabase.from('categories').insert(body).select().maybeSingle();
 
     return {
       data,
@@ -76,7 +63,7 @@ export class CategoryRepository {
       .from('categories')
       .update(body)
       .eq('id', body.id)
-      .select<'*', IUpdateCategoryDatabase>()
+      .select()
       .maybeSingle();
 
     return {
@@ -91,10 +78,9 @@ export class CategoryRepository {
   };
 
   delete = async (id: string) => {
-    const { data, error } = await this._supabase.from('categories').delete().eq('id', id);
+    const { error } = await this._supabase.from('categories').delete().eq('id', id);
 
     return {
-      data,
       ...(error?.name && {
         error: {
           name: error.name,

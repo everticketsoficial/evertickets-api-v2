@@ -4,11 +4,11 @@ export class DeleteCategoryUseCase {
   constructor(private readonly _repository: CategoryRepository) {}
 
   execute = async (id: string) => {
-    const { data, error } = await this._repository.delete(id);
+    const { error } = await this._repository.delete(id);
     if (error) {
       return { error };
     }
 
-    return { data };
+    return {};
   };
 }
