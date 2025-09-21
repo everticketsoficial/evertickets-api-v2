@@ -4,7 +4,7 @@ CREATE TABLE categories (
   , "description" TEXT
   , "order" INTEGER NOT NULL
   , photo_url TEXT NOT NULL
-  , active BOOLEAN NOT NULL DEFAULT false
+  , active BOOLEAN NOT NULL DEFAULT true
   , highlighted BOOLEAN NOT NULL DEFAULT false
   , created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
   , updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
@@ -14,4 +14,15 @@ CREATE TRIGGER set_updated_at
   BEFORE UPDATE ON public.categories
   FOR EACH ROW
   EXECUTE FUNCTION public.set_updated_at()
+;
+
+INSERT INTO categories ("order", "highlighted", photo_url, "name", "description") VALUES
+  (1, true, 'update_photo_url', 'Shows & Música', 'Concertos, festivais, bandas, DJs e apresentações musicais')
+  , (2, true, 'update_photo_url', 'Esportes', 'Futebol, basquete, corridas, lutas e outros esportes')
+  , (3, false, 'update_photo_url', 'Teatro & Artes Cênicas', 'Peças, stand-up comedy, dança e ópera')
+  , (4, false, 'update_photo_url', 'Cinema & Audiovisual', 'Sessões de cinema, festivais e pré-estreias')
+  , (5, false, 'update_photo_url', 'Experiências & Entretenimento', 'Parques temáticos, exposições, museus, escape rooms')
+  , (6, true, 'update_photo_url', 'Eventos Corporativos & Educacionais', 'Palestras, workshops, conferências e cursos')
+  , (7, true, 'update_photo_url', 'Festivais & Cultura', 'Gastronomia, festas regionais, rodeios, carnaval')
+  , (8, true, 'update_photo_url', 'Religiosos & Espirituais', 'Congressos religiosos, retiros e encontros comunitários')
 ;
