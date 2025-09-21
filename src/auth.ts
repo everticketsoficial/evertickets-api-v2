@@ -39,10 +39,7 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
     };
   } catch (error: any) {
     reply.status(401).send({
-      error: {
-        name: 'Autenticação',
-        message: error?.message ?? 'Falha na autenticação',
-      },
+      error: error?.message ?? 'Falha na autenticação',
     });
   }
 }

@@ -1,10 +1,5 @@
 import { z } from 'zod/v4';
 
-export const defaultError = z.object({
-  name: z.string(),
-  message: z.string(),
-});
-
 export const paramsScheme = z.object({
   id: z.uuidv4(),
 });
@@ -35,24 +30,24 @@ export const defaultResponse201 = <T = z.ZodObject>(data?: T) => ({
 
 export const defaultResponse400 = {
   400: z.object({
-    error: defaultError,
+    error: z.string(),
   }),
 };
 
 export const defaultResponse401 = {
   401: z.object({
-    error: defaultError,
+    error: z.string(),
   }),
 };
 
 export const defaultResponse404 = {
   404: z.object({
-    error: defaultError,
+    error: z.string(),
   }),
 };
 
 export const defaultResponse500 = {
   500: z.object({
-    error: defaultError,
+    error: z.string(),
   }),
 };

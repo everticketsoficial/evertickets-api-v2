@@ -7,10 +7,7 @@ const adminMiddleware = async (request: FastifyRequest, reply: FastifyReply) => 
     }
   } catch (error: any) {
     reply.status(401).send({
-      error: {
-        name: 'Rota não encontrada',
-        message: error?.message ?? 'Rota não encontrada',
-      },
+      error: error?.message ?? 'Rota não encontrada',
     });
   }
 };

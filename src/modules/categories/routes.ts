@@ -48,7 +48,7 @@ const routes = async (app: FastifyTypedInstance) => {
     handler: async (req, res) => {
       const { data, error, total, last, next } = await ListCategoryController(req.query);
       if (error) {
-        res.status(500).send({ error });
+        res.status(500).send({ error: error.message });
         return;
       }
 
@@ -74,13 +74,12 @@ const routes = async (app: FastifyTypedInstance) => {
       const { id } = req.params;
       const { data, error } = await GetCategoryController(id);
       if (error) {
-        res.status(500).send({ error });
+        res.status(500).send({ error: error.message });
         return;
       }
 
       if (!data?.id) {
-        const newError = { name: 'Não encontrado', message: 'A categoria não foi encontrada' };
-        res.status(404).send({ error: newError });
+        res.status(404).send({ error: 'A categoria não foi encontrada' });
         return;
       }
 
@@ -106,7 +105,7 @@ const routes = async (app: FastifyTypedInstance) => {
     handler: async (req, res) => {
       const { data, error } = await CreateCategoryController(req.body);
       if (error) {
-        res.status(500).send({ error });
+        res.status(500).send({ error: error.message });
         return;
       }
 
@@ -136,13 +135,12 @@ const routes = async (app: FastifyTypedInstance) => {
 
       const resultGet = await GetCategoryController(id);
       if (resultGet.error) {
-        res.status(500).send({ error: resultGet.error });
+        res.status(500).send({ error: resultGet.error.message });
         return;
       }
 
       if (!resultGet.data?.id) {
-        const newError = { name: 'Não encontrado', message: 'A categoria não foi encontrada' };
-        res.status(404).send({ error: newError });
+        res.status(404).send({ error: 'A categoria não foi encontrada' });
         return;
       }
 
@@ -151,7 +149,7 @@ const routes = async (app: FastifyTypedInstance) => {
         id,
       });
       if (error) {
-        res.status(500).send({ error });
+        res.status(500).send({ error: error.message });
         return;
       }
 
@@ -180,19 +178,18 @@ const routes = async (app: FastifyTypedInstance) => {
 
       const resultGet = await GetCategoryController(id);
       if (resultGet.error) {
-        res.status(500).send({ error: resultGet.error });
+        res.status(500).send({ error: resultGet.error.message });
         return;
       }
 
       if (!resultGet.data?.id) {
-        const newError = { name: 'Não encontrado', message: 'A categoria não foi encontrada' };
-        res.status(404).send({ error: newError });
+        res.status(404).send({ error: 'A categoria não foi encontrada' });
         return;
       }
 
       const { error } = await DeleteCategoryController(id);
       if (error) {
-        res.status(500).send({ error });
+        res.status(500).send({ error: error.message });
         return;
       }
 
