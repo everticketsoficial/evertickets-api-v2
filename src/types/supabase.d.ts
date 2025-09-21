@@ -11,36 +11,36 @@ export type Database = {
       categories: {
         Row: {
           active: boolean;
-          created_at: string | null;
-          description: string | null;
+          created_at: string;
+          description?: string;
           highlighted: boolean;
           id: string;
           name: string;
           order: number;
-          photo_url: string | null;
-          updated_at: string | null;
+          photo_url: string;
+          updated_at: string;
         };
         Insert: {
           active?: boolean;
-          created_at?: string | null;
+          created_at?: string;
           description?: string | null;
           highlighted?: boolean;
           id?: string;
           name: string;
           order: number;
-          photo_url?: string | null;
-          updated_at?: string | null;
+          photo_url: string;
+          updated_at?: string;
         };
         Update: {
           active?: boolean;
-          created_at?: string | null;
+          created_at?: string;
           description?: string | null;
           highlighted?: boolean;
           id?: string;
           name?: string;
           order?: number;
-          photo_url?: string | null;
-          updated_at?: string | null;
+          photo_url?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };

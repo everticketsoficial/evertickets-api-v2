@@ -3,11 +3,11 @@ CREATE TABLE categories (
   , "name" TEXT NOT NULL
   , "description" TEXT
   , "order" INTEGER NOT NULL
-  , photo_url TEXT
+  , photo_url TEXT NOT NULL
   , active BOOLEAN NOT NULL DEFAULT false
   , highlighted BOOLEAN NOT NULL DEFAULT false
-  , created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-  , updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  , created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+  , updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TRIGGER set_updated_at

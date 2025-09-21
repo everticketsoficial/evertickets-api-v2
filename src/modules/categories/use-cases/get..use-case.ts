@@ -13,11 +13,6 @@ export class GetCategoryUseCase {
       return { data: undefined };
     }
 
-    const item = {
-      ...data,
-      photo_url: '',
-    };
-
-    return { data: item };
+    return { data };
   };
 }

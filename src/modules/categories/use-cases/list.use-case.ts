@@ -10,14 +10,6 @@ export class ListCategoryUseCase {
       return { error };
     }
 
-    const items = data.map(item => {
-      return {
-        ...item,
-        // TODO: Ajustar a URL
-        photo_url: '',
-      };
-    });
-
-    return { data: items, total };
+    return { data, total };
   };
 }
