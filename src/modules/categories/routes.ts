@@ -1,4 +1,5 @@
 import { authMiddleware } from '../../auth';
+import { adminMiddleware } from '../../core/middlewares/admin';
 
 import {
   defaultResponse200,
@@ -30,8 +31,6 @@ import {
 } from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
-  app.addHook('preHandler', authMiddleware);
-
   // GET /
   app.route({
     method: 'GET',
@@ -87,6 +86,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse500,
       },
     },
+    preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
       const { data, error } = await CreateCategoryController(req.body);
       res.status(error?.name ? 500 : 201).send({ data });
@@ -108,6 +108,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse500,
       },
     },
+    preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
       const { id } = req.params;
       const { data, error } = await UpdateCategoryController({
@@ -132,6 +133,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse500,
       },
     },
+    preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
       const { id } = req.params;
       const { data, error } = await DeleteCategoryController(id);

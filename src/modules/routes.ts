@@ -5,7 +5,7 @@ import eventRoutes from './events/routes';
 
 const routes = async (app: FastifyTypedInstance) => {
   app.get('/', async () => {
-    return { error: false, message: 'Hello world' };
+    return { data: 'Hello world' };
   });
 
   app.register(categoryRoutes, { prefix: 'api/v1/category' });
