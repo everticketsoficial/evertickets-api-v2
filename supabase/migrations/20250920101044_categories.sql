@@ -1,6 +1,6 @@
 CREATE TABLE categories (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid()
-  , "name" TEXT NOT NULL
+  , "name" TEXT NOT NULL UNIQUE
   , "description" TEXT
   , "order" INTEGER NOT NULL
   , photo_url TEXT NOT NULL
@@ -15,6 +15,9 @@ CREATE TRIGGER set_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION public.set_updated_at()
 ;
+
+CREATE INDEX IF NOT EXISTS uq_categories_name ON public.categories ("name");
+CREATE INDEX IF NOT EXISTS uq_categories_order ON public.categories ("order");
 
 INSERT INTO categories ("order", "highlighted", photo_url, "name", "description") VALUES
   (1, true, 'update_photo_url', 'Shows & Música', 'Concertos, festivais, bandas, DJs e apresentações musicais')

@@ -20,3 +20,5 @@ CREATE TRIGGER set_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION public.set_updated_at()
 ;
+
+-- TODO: phone, cpf e cnpj devem ser únicos
