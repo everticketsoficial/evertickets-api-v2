@@ -119,6 +119,33 @@ export type Database = {
         };
         Relationships: [];
       };
+      teams: {
+        Row: {
+          created_at: string;
+          id: string;
+          producer_id: string;
+          staff_id: string;
+          status: Database['public']['Enums']['team_status_enum'];
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          producer_id: string;
+          staff_id: string;
+          status: Database['public']['Enums']['team_status_enum'];
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          producer_id?: string;
+          staff_id?: string;
+          status?: Database['public']['Enums']['team_status_enum'];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -129,6 +156,7 @@ export type Database = {
     Enums: {
       profile_level_enum: 'customer' | 'staff' | 'producer' | 'admin';
       profile_type_enum: 'physical' | 'business';
+      team_status_enum: 'pending' | 'accepted' | 'rejected';
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -250,6 +278,7 @@ export const Constants = {
     Enums: {
       profile_level_enum: ['customer', 'staff', 'producer', 'admin'],
       profile_type_enum: ['physical', 'business'],
+      team_status_enum: ['pending', 'accepted', 'rejected'],
     },
   },
 } as const;
