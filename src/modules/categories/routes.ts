@@ -32,12 +32,12 @@ import {
 } from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
-  // GET /
+  // GET /category
   app.route({
     method: 'GET',
-    url: '',
+    url: '/category',
     schema: {
-      tags: ['Category'],
+      tags: [],
       querystring: paginateScheme,
       response: {
         ...defaultResponse200<typeof listCategoryResultSchema>(listCategoryResultSchema),
@@ -56,12 +56,14 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // GET /:id
+  // TODO: Listar categorias com os eventos
+
+  // GET /admin/category/:id
   app.route({
     method: 'GET',
-    url: '/:id',
+    url: '/admin/category/:id',
     schema: {
-      tags: ['Category'],
+      tags: ['Admin'],
       params: paramsScheme,
       response: {
         ...defaultResponse200<typeof getCategoryResultSchema>(getCategoryResultSchema),
@@ -69,7 +71,9 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse404,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
+    preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
       const { id } = req.params;
       const { data, error } = await GetCategoryController(id);
@@ -87,12 +91,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // POST /
+  // POST /admin/category
   app.route({
     method: 'POST',
-    url: '',
+    url: '/admin/category',
     schema: {
-      tags: ['Category'],
+      tags: ['Admin'],
       body: createCategorySchema,
       response: {
         ...defaultResponse201<typeof createCategoryResultSchema>(createCategoryResultSchema),
@@ -100,6 +104,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse401,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
@@ -113,12 +118,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // PUT /:id
+  // PUT /admin/:id
   app.route({
     method: 'PUT',
-    url: '/:id',
+    url: '/admin/category/:id',
     schema: {
-      tags: ['Category'],
+      tags: ['Admin'],
       body: updateCategorySchema,
       params: paramsScheme,
       response: {
@@ -128,6 +133,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse404,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
@@ -157,12 +163,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // DELETE /:id
+  // DELETE /admin/:id
   app.route({
     method: 'DELETE',
-    url: '/:id',
+    url: '/admin/category/:id',
     schema: {
-      tags: ['Category'],
+      tags: ['Admin'],
       params: paramsScheme,
       response: {
         ...defaultResponse201(),
@@ -171,6 +177,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse404,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {

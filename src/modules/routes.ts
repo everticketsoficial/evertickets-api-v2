@@ -10,10 +10,10 @@ const routes = async (app: FastifyTypedInstance) => {
     return { data: 'Hello world' };
   });
 
-  app.register(bannerRoutes, { prefix: 'api/v1/banner' });
-  app.register(categoryRoutes, { prefix: 'api/v1/category' });
+  app.register(bannerRoutes, { prefix: 'api/v1' });
+  app.register(categoryRoutes, { prefix: 'api/v1' });
   // app.register(eventRoutes, { prefix: 'api/v1/event' });
-  app.register(teamRoutes, { prefix: 'api/v1/team' });
+  app.register(teamRoutes, { prefix: 'api/v1' });
 };
 
 export default routes;

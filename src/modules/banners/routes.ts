@@ -32,12 +32,12 @@ import {
 } from './controller';
 
 const routes = async (app: FastifyTypedInstance) => {
-  // GET /
+  // GET /banner
   app.route({
     method: 'GET',
-    url: '',
+    url: '/banner',
     schema: {
-      tags: ['Banner'],
+      tags: [],
       querystring: paginateScheme,
       response: {
         ...defaultResponse200<typeof listBannerResultSchema>(listBannerResultSchema),
@@ -56,12 +56,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // GET /:id
+  // GET /admin/banner/:id
   app.route({
     method: 'GET',
-    url: '/:id',
+    url: '/admin/banner/:id',
     schema: {
-      tags: ['Banner'],
+      tags: ['Admin'],
       params: paramsScheme,
       response: {
         ...defaultResponse200<typeof getBannerResultSchema>(getBannerResultSchema),
@@ -69,7 +69,9 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse404,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
+    preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
       const { id } = req.params;
       const { data, error } = await GetBannerController(id);
@@ -87,12 +89,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // POST /
+  // POST /admin/banner
   app.route({
     method: 'POST',
-    url: '',
+    url: '/admin/banner',
     schema: {
-      tags: ['Banner'],
+      tags: ['Admin'],
       body: createBannerSchema,
       response: {
         ...defaultResponse201<typeof createBannerResultSchema>(createBannerResultSchema),
@@ -100,6 +102,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse401,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
@@ -113,12 +116,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // PUT /:id
+  // PUT /admin/banner/:id
   app.route({
     method: 'PUT',
-    url: '/:id',
+    url: '/admin/banner/:id',
     schema: {
-      tags: ['Banner'],
+      tags: ['Admin'],
       body: updateBannerSchema,
       params: paramsScheme,
       response: {
@@ -128,6 +131,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse404,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
@@ -157,12 +161,12 @@ const routes = async (app: FastifyTypedInstance) => {
     },
   });
 
-  // DELETE /:id
+  // DELETE /admin/banner/:id
   app.route({
     method: 'DELETE',
-    url: '/:id',
+    url: '/admin/banner/:id',
     schema: {
-      tags: ['Banner'],
+      tags: ['Admin'],
       params: paramsScheme,
       response: {
         ...defaultResponse201(),
@@ -171,6 +175,7 @@ const routes = async (app: FastifyTypedInstance) => {
         ...defaultResponse404,
         ...defaultResponse500,
       },
+      security: [{ bearerAuth: [] }],
     },
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {

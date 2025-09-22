@@ -24,11 +24,6 @@ fastify.register(fastifySwagger, {
         },
       },
     },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
   },
   transform: jsonSchemaTransform,
 });
