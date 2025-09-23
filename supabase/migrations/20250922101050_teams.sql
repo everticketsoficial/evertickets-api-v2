@@ -2,8 +2,8 @@ CREATE TYPE team_status_enum AS ENUM ('pending', 'accepted', 'rejected');
 
 CREATE TABLE teams (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid()
-  , producer_id UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE
-  , staff_id UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE
+  , producer_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE
+  , staff_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE
   , "status" team_status_enum NOT NULL DEFAULT 'pending'
   , created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
   , updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()

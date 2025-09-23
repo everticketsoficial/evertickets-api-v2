@@ -2,7 +2,7 @@ import { z } from 'zod/v4';
 
 export const createCategorySchema = z.object({
   name: z.string().min(3, 'Mínimo de 3 caracteres').max(48, 'Máximo de 48 caracteres'),
-  description: z.string().optional(),
+  description: z.string().nullable(),
   order: z.number().positive('A ordem deve ser maior que zero'),
   photo_url: z.string(),
   active: z.boolean().default(false),
@@ -12,7 +12,7 @@ export const createCategorySchema = z.object({
 export const createCategoryResultSchema = z.object({
   id: z.uuid(),
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string().nullable(),
   order: z.number(),
   photo_url: z.string(),
   active: z.boolean(),
@@ -23,7 +23,7 @@ export const createCategoryResultSchema = z.object({
 
 export const updateCategorySchema = z.object({
   name: z.string().min(3, 'Mínimo de 3 caracteres').max(48, 'Máximo de 48 caracteres'),
-  description: z.string().optional(),
+  description: z.string().nullable(),
   order: z.number().positive('A ordem deve ser maior que zero'),
   photo_url: z.string(),
   active: z.boolean().default(false),
@@ -33,7 +33,7 @@ export const updateCategorySchema = z.object({
 export const updateCategoryResultSchema = z.object({
   id: z.uuid(),
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string().nullable(),
   order: z.number(),
   photo_url: z.string(),
   active: z.boolean(),
@@ -45,7 +45,7 @@ export const updateCategoryResultSchema = z.object({
 export const getCategoryResultSchema = z.object({
   id: z.uuid(),
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string().nullable(),
   order: z.number(),
   photo_url: z.string(),
   active: z.boolean(),
@@ -58,7 +58,7 @@ export const listCategoryResultSchema = z.array(
   z.object({
     id: z.uuid(),
     name: z.string(),
-    description: z.string().optional(),
+    description: z.string().nullable(),
     order: z.number(),
     photo_url: z.string(),
     active: z.boolean(),

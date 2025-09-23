@@ -45,7 +45,7 @@ export type Database = {
         Row: {
           active: boolean;
           created_at: string;
-          description?: string;
+          description: string | null;
           highlighted: boolean;
           id: string;
           name: string;
@@ -133,7 +133,7 @@ export type Database = {
           id?: string;
           producer_id: string;
           staff_id: string;
-          status: Database['public']['Enums']['team_status_enum'];
+          status?: Database['public']['Enums']['team_status_enum'];
           updated_at?: string;
         };
         Update: {
