@@ -6,6 +6,7 @@ dotenv.config();
 import { fastify } from './server.config';
 import './server.swagger';
 import './server.error';
+import './server.upload';
 import './server.routes';
 
 const listeners = ['SIGINT', 'SIGTERM'];
