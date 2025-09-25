@@ -1,3 +1,4 @@
+import { baseUrl } from '../../../server.upload';
 import { IPaginate } from '../../../types/http';
 import { CategoryRepository } from '../repository';
 
@@ -10,6 +11,13 @@ export class ListCategoryUseCase {
       return { error };
     }
 
-    return { data, total };
+    const items = data.map(item => {
+      return {
+        ...item,
+        photo_url: `${baseUrl}/categories/${item.photo_url}`,
+      };
+    });
+
+    return { data: items, total };
   };
 }

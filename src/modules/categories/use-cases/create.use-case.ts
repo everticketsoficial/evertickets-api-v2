@@ -11,6 +11,7 @@ export class CreateCategoryUseCase {
       return { error: resultCreate.error };
     }
 
+    // TODO: Mover imagem para a pasta /uploads/categories
     return { data: resultCreate.data };
   };
 }

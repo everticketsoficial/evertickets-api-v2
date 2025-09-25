@@ -1,3 +1,4 @@
+import { baseUrl } from '../../../server.upload';
 import { CategoryRepository } from '../repository';
 
 export class GetCategoryUseCase {
@@ -12,6 +13,8 @@ export class GetCategoryUseCase {
     if (!data?.id) {
       return { data: undefined };
     }
+
+    data.photo_url = `${baseUrl}/categories/${data.photo_url}`;
 
     return { data };
   };
