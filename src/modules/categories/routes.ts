@@ -31,7 +31,7 @@ import {
   UpdateCategoryController,
 } from './controller';
 
-import { uploadFile } from '../../shared/utils/upload';
+import { uploadFile } from '../../server.upload';
 
 const routes = async (app: FastifyTypedInstance) => {
   // GET /category
