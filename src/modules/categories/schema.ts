@@ -2,11 +2,12 @@ import { z } from 'zod/v4';
 
 export const createCategorySchema = z.object({
   name: z.string().min(3, 'Mínimo de 3 caracteres').max(48, 'Máximo de 48 caracteres'),
-  description: z.string().nullable(),
-  order: z.number().positive('A ordem deve ser maior que zero'),
-  photo_url: z.string(),
-  active: z.boolean().default(false),
-  highlighted: z.boolean().default(false),
+  description: z.string().optional(),
+  order: z.coerce.number().positive('A ordem deve ser maior que zero'),
+  'photo_url[filename]': z.string().lowercase(),
+  'photo_url[file]': z.any(),
+  active: z.coerce.boolean().default(false),
+  highlighted: z.coerce.boolean().default(false),
 });
 
 export const createCategoryResultSchema = z.object({

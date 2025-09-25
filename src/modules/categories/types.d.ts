@@ -10,7 +10,10 @@ import {
   updateCategorySchema,
 } from './schema';
 
-export type ICreateCategoryController = z.infer<typeof createCategorySchema>;
+export type ICreateCategoryController = Omit<
+  z.infer<typeof createCategorySchema>,
+  'photo_url[file]' | 'photo_url[filename]'
+> & { photo_url: string };
 export type ICreateCategoryUseCase = ICreateCategoryController;
 export type ICreateCategoryRepository = Database['public']['Tables']['categories']['Insert'];
 
