@@ -5,11 +5,11 @@ export class CreateCategoryUseCase {
   constructor(private readonly _repository: CategoryRepository) {}
 
   execute = async (body: ICreateCategoryUseCase) => {
-    const { data, error } = await this._repository.create(body);
-    if (error) {
-      return { error };
+    const resultCreate = await this._repository.create(body);
+    if (resultCreate?.error) {
+      return { error: resultCreate.error };
     }
 
-    return { data };
+    return { data: resultCreate.data };
   };
 }

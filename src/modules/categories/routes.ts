@@ -46,13 +46,18 @@ const routes = async (app: FastifyTypedInstance) => {
       },
     },
     handler: async (req, res) => {
-      const { data, error, total, last, next } = await ListCategoryController(req.query);
-      if (error) {
-        res.status(500).send({ error: error.message });
+      const listCategory = await ListCategoryController(req.query);
+      if (listCategory?.error) {
+        res.status(500).send({ error: listCategory.error });
         return;
       }
 
-      res.status(200).send({ data, total, last, next });
+      res.status(200).send({
+        data: listCategory.data ?? [],
+        total: listCategory.total,
+        last: listCategory.last,
+        next: listCategory.next,
+      });
     },
   });
 
@@ -76,18 +81,18 @@ const routes = async (app: FastifyTypedInstance) => {
     preHandler: [authMiddleware, adminMiddleware],
     handler: async (req, res) => {
       const { id } = req.params;
-      const { data, error } = await GetCategoryController(id);
-      if (error) {
-        res.status(500).send({ error: error.message });
+      const getCategory = await GetCategoryController(id);
+      if (getCategory?.error) {
+        res.status(500).send({ error: getCategory.error });
         return;
       }
 
-      if (!data?.id) {
+      if (!getCategory.data?.id) {
         res.status(404).send({ error: 'A categoria não foi encontrada' });
         return;
       }
 
-      res.status(200).send({ data });
+      res.status(200).send({ data: getCategory.data });
     },
   });
 
@@ -141,7 +146,7 @@ const routes = async (app: FastifyTypedInstance) => {
 
       const resultGet = await GetCategoryController(id);
       if (resultGet.error) {
-        res.status(500).send({ error: resultGet.error.message });
+        res.status(500).send({ error: resultGet.error });
         return;
       }
 
@@ -150,16 +155,16 @@ const routes = async (app: FastifyTypedInstance) => {
         return;
       }
 
-      const { data, error } = await UpdateCategoryController({
+      const updateCategory = await UpdateCategoryController({
         ...req.body,
         id,
       });
-      if (error) {
-        res.status(500).send({ error: error.message });
+      if (updateCategory?.error) {
+        res.status(500).send({ error: updateCategory.error });
         return;
       }
 
-      res.status(201).send({ data });
+      res.status(201).send({ data: updateCategory.data });
     },
   });
 
@@ -185,7 +190,7 @@ const routes = async (app: FastifyTypedInstance) => {
 
       const resultGet = await GetCategoryController(id);
       if (resultGet.error) {
-        res.status(500).send({ error: resultGet.error.message });
+        res.status(500).send({ error: resultGet.error });
         return;
       }
 
@@ -194,9 +199,9 @@ const routes = async (app: FastifyTypedInstance) => {
         return;
       }
 
-      const { error } = await DeleteCategoryController(id);
-      if (error) {
-        res.status(500).send({ error: error.message });
+      const deleteGet = await DeleteCategoryController(id);
+      if (deleteGet.error) {
+        res.status(500).send({ error: deleteGet.error });
         return;
       }
 

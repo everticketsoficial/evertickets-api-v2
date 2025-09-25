@@ -2,6 +2,8 @@ import { supabase } from '../../plugins/supabase';
 import { nextPaginate } from '../../shared/utils/http';
 import { IPaginate } from '../../types/http';
 
+import { formatUniqueConstraintError } from '../../core/messages';
+
 import { CategoryRepository } from './repository';
 import { ICreateCategoryController, IUpdateCategoryController } from './types';
 
@@ -19,46 +21,58 @@ const updateCategoryUseCase = new UpdateCategoryUseCase(repository);
 const deleteCategoryUseCase = new DeleteCategoryUseCase(repository);
 
 export const ListCategoryController = async (params: IPaginate) => {
-  const { data, total, error } = await listCategoryUseCase.execute(params);
-  if (error) {
-    return { error };
+  const listCategory = await listCategoryUseCase.execute(params);
+  if (listCategory?.error) {
+    return { error: listCategory.error.message };
   }
 
-  const { last, next } = nextPaginate({ total, params });
-  return { data, total, last, next };
+  const { last, next } = nextPaginate({ total: listCategory.total, params });
+  return {
+    data: listCategory.data,
+    total: listCategory.total,
+    last,
+    next,
+  };
 };
 
 export const GetCategoryController = async (id: string) => {
-  const { data, error } = await getCategoryUseCase.execute(id);
-  if (error) {
-    return { error };
+  const getCategory = await getCategoryUseCase.execute(id);
+  if (getCategory?.error) {
+    return { error: getCategory.error.message };
   }
 
-  return { data };
+  return { data: getCategory.data };
 };
 
 export const CreateCategoryController = async (body: ICreateCategoryController) => {
-  const { data, error } = await createCategoryUseCase.execute(body);
-  if (error) {
-    return { error };
+  const createCategory = await createCategoryUseCase.execute(body);
+  if (createCategory?.error) {
+    switch (createCategory.error.code) {
+      case '23505':
+        return { error: formatUniqueConstraintError(createCategory.error.name) };
+      default:
+        break;
+    }
+
+    return { error: createCategory.error.message };
   }
 
-  return { data };
+  return { data: createCategory.data };
 };
 
 export const UpdateCategoryController = async (body: IUpdateCategoryController) => {
-  const { data, error } = await updateCategoryUseCase.execute(body);
-  if (error) {
-    return { error };
+  const updateCategory = await updateCategoryUseCase.execute(body);
+  if (updateCategory?.error) {
+    return { error: updateCategory.error.message };
   }
 
-  return { data };
+  return { data: updateCategory.data };
 };
 
 export const DeleteCategoryController = async (id: string) => {
-  const { error } = await deleteCategoryUseCase.execute(id);
-  if (error) {
-    return { error };
+  const deleteCategory = await deleteCategoryUseCase.execute(id);
+  if (deleteCategory?.error) {
+    return { error: deleteCategory.error.message };
   }
 
   return {};

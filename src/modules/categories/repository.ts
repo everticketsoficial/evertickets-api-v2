@@ -49,9 +49,10 @@ export class CategoryRepository {
 
     return {
       data,
-      ...(error?.name && {
+      ...((error?.name || error?.details) && {
         error: {
-          name: error.name,
+          code: error.code,
+          name: error.name || error?.details,
           message: error.message,
         },
       }),
