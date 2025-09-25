@@ -7,6 +7,8 @@ if (!fs.existsSync(tmpDir)) {
   fs.mkdirSync(tmpDir, { recursive: true });
 }
 
+export const baseUrl = process.env.BASE_URL
+
 interface File {
   file: Buffer;
   filename: string;

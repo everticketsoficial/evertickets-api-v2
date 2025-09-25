@@ -7,6 +7,7 @@ export class CreateCategoryUseCase {
   execute = async (body: ICreateCategoryUseCase) => {
     const resultCreate = await this._repository.create(body);
     if (resultCreate?.error) {
+      // TODO: Deletar imagem
       return { error: resultCreate.error };
     }
 
