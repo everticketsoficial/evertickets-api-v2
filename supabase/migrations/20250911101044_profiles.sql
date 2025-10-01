@@ -11,6 +11,12 @@ CREATE TABLE profiles (
   , cpf TEXT
   , cnpj TEXT
   , instagram TEXT
+  , cep TEXT
+  , uf TEXT
+  , city TEXT
+  , neighborhood TEXT
+  , street TEXT
+  , "number" TEXT
   , blocked BOOLEAN DEFAULT FALSE
   , created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   , updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
