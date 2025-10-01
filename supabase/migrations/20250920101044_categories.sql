@@ -18,6 +18,20 @@ CREATE TRIGGER set_updated_at
 
 CREATE INDEX IF NOT EXISTS uq_categories_name ON public.categories ("name");
 CREATE INDEX IF NOT EXISTS uq_categories_order ON public.categories ("order");
+CREATE INDEX IF NOT EXISTS idx_categories_active_highlighted_order ON public.categories (active, highlighted, "order");
+
+CREATE VIEW public.show_categories AS
+  SELECT
+    category.id
+    , category.name
+    , category.description
+    , category.order
+    , category.photo_url
+  FROM public.categories category
+  WHERE category.active IS TRUE
+    AND category.highlighted IS TRUE
+  ORDER BY category.order
+;
 
 INSERT INTO categories ("order", "highlighted", photo_url, "name", "description") VALUES
   (1, true, 'update_photo_url', 'Shows & Música', 'Concertos, festivais, bandas, DJs e apresentações musicais')
