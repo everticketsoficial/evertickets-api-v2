@@ -21,4 +21,17 @@ CREATE TRIGGER set_updated_at
   EXECUTE FUNCTION public.set_updated_at()
 ;
 
--- TODO: phone, cpf e cnpj devem ser únicos
+CREATE UNIQUE INDEX profile_unique_phone
+  ON public.profiles (phone)
+  WHERE phone IS NOT NULL
+;
+
+CREATE UNIQUE INDEX profile_unique_cpf
+  ON public.profiles (cpf)
+  WHERE cpf IS NOT NULL
+;
+
+CREATE UNIQUE INDEX profile_unique_cnpj
+  ON public.profiles (cnpj)
+  WHERE cnpj IS NOT NULL
+;

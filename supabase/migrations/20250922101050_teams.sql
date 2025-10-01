@@ -20,5 +20,3 @@ CREATE INDEX IF NOT EXISTS uq_teams_producer_id ON public.teams (producer_id);
 CREATE INDEX IF NOT EXISTS uq_teams_producer_id_status ON public.teams (producer_id, "status");
 CREATE INDEX IF NOT EXISTS uq_teams_staff_id ON public.teams (staff_id);
 CREATE INDEX IF NOT EXISTS uq_teams_staff_id_status ON public.teams (staff_id, "status");
-
--- TODO: producer_id e staff_id não podem ser iguais
