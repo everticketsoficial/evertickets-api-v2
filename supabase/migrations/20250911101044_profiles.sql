@@ -10,6 +10,7 @@ CREATE TABLE profiles (
   , phone TEXT
   , cpf TEXT
   , cnpj TEXT
+  , instagram TEXT
   , blocked BOOLEAN DEFAULT FALSE
   , created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   , updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
