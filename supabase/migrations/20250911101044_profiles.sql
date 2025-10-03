@@ -6,6 +6,9 @@ CREATE TABLE profiles (
   , profile_type profile_type_enum NOT NULL DEFAULT 'physical'
   , profile_level profile_level_enum NOT NULL DEFAULT 'customer'
   , display_name TEXT NOT NULL
+  -- TODO: Descrição do produtor
+  -- TODO: Whatsapp do produtor
+  -- TODO: Taxa customizada do produtor
   , avatar_url TEXT
   , phone TEXT
   , cpf TEXT
@@ -17,6 +20,7 @@ CREATE TABLE profiles (
   , neighborhood TEXT
   , street TEXT
   , "number" TEXT
+  -- TODO: Validar necessidade
   , blocked BOOLEAN DEFAULT FALSE
   , created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   , updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -42,3 +46,5 @@ CREATE UNIQUE INDEX profile_unique_cnpj
   ON public.profiles (cnpj)
   WHERE cnpj IS NOT NULL
 ;
+
+-- TODO: Verificar necessidade de índices
